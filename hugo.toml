@@ -1,27 +1,39 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
-title = 'Andrea Bellucci blog'
+baseURL = "https://example.org/"
+languageCode = "en-us"
+title = "abellucci93.dev blog"
+
+[params]
+    sitename = "abellucci93.dev blog"
+    defaultColor = "dark"
+    description = "Welcome to my personal tech blog! Here, I share insights, tutorials, and experiences from my journey in software programming, cloud computing, Kubernetes, Docker, and DevOps practices."
+    mainSections = ["posts"]
+    toc = true
+    tocOpen = false
+    rssFeedDescription = "summary"
 
 [params.author]
-  name = 'Andrea Bellucci'
+    avatar = "avatar.jpg"
+    name = "Andrea Bellucci"
+    intro = "abellucci93.dev blog"
+    description = "Welcome to my personal tech blog! Here, I share insights, tutorials, and experiences from my journey in software programming, cloud computing, Kubernetes, Docker, and DevOps practices."
 
 [module]
     [[module.imports]]
-        path = 'github.com/hugo-sid/hugo-blog-awesome'
+        path = "github.com/hugo-sid/hugo-blog-awesome"
 
 [menu]
     [[menu.main]]
-        identifier = 'home'
-        name = 'Home'
-        url = '/'
+        identifier = "home"
+        name = "Home"
+        url = "/"
         weight = 1
 
     [[menu.main]]
-        identifier = 'posts'
-        name = 'Posts'
-        url = '/posts/'
+        identifier = "posts"
+        name = "Posts"
+        url = "/posts/"
         weight = 2
 
 [[params.socialIcons]]
-    name = 'github'
-    url = 'https://github.com/abellucci93'
+    name = "github"
+    url = "https://github.com/abellucci93"
