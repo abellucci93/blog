@@ -1,0 +1,11 @@
+services:
+  hugo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "${WEB_PORT:-1313}:1313"
+    volumes:
+      - .:/src
+

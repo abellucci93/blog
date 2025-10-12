@@ -1,8 +1,0 @@
-services:
-  hugo:
-    image: hugomods/hugo:exts-non-root-0.147.8
-    ports:
-      - "${WEB_PORT:-1313}:1313"
-    volumes:
-      - .:/src
-    command: server --bind 0.0.0.0 --buildDrafts
