@@ -1,0 +1,11 @@
+<a
+    id="clap-button"
+    href="#"
+    onclick="return false;"
+    data-identifier="{{ .RelPermalink | sha256 }}">
+    {{ partial "svgs/clap.svg" (dict "height" 24 "width" 24) . }}
+</a>
+<span
+    id="clap-count"
+    data-identifier="{{ .RelPermalink | sha256 }}">
+</span>
