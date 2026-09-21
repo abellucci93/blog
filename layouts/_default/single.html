@@ -11,6 +11,9 @@
                     <time datetime="{{ $ISO_time }}" itemprop="datePublished"> {{ . | time.Format $configDateFormat }} </time>
                 </div>
                 {{ end }}
+                {{ with .Params.category }}
+                <a class="post-meta" href="/category/{{ index . 0 }}/">{{ delimit . ", " }}</a>
+                {{ end }}
                 <div class="footer_social-icons" style="margin-top:20px;display:flex;gap:5px;">
                     {{ partial "clap.html" }}
                 </div>

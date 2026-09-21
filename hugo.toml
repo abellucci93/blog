@@ -17,6 +17,9 @@ title = "abellucci93.dev blog"
     intro = "abellucci93.dev blog"
     description = "Welcome to my personal tech blog! Here, I share insights, tutorials, and experiences from my journey in software programming, cloud computing, Kubernetes, Docker, and DevOps practices."
 
+[taxonomies]
+    category = "category"
+
 [module]
     [[module.imports]]
         path = "github.com/hugo-sid/hugo-blog-awesome"
