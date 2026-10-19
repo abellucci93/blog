@@ -1,17 +1,22 @@
 ---
-date = '{{ .Date }}'
-draft = true
-title = '{{ replace .File.ContentBaseName "-" " " | title }}'
+date: '{{ .Date }}'
+draft: true
+title: '{{ replace .File.ContentBaseName "-" " " | title }}'
+category: []
 ---
 
 ## Problem
 
-<!-- Describe the problem encountered -->
+<!-- Describe the specific problem encountered (one vertical scenario) -->
 
 ## Context
 
-<!-- Provide a context with the relevant information to describe where and when the problem may occur -->
+<!-- Provide the relevant context: where/when this problem appears, prerequisites -->
 
 ## Solution
 
-<!-- Describe the solution adopted to resolve the problem -->
+<!-- Describe the solution with at least one concrete snippet and a verification step -->
+
+## When to use
+
+<!-- Optional: list the cases where this pill applies -->
