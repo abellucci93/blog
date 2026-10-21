@@ -39,4 +39,8 @@ jobs:
           token: ${{ secrets.HOMELAB_TOKEN }}
           repository: abellucci93/homelab
           event-type: blog-image-pushed
-          client-payload: '{"image_tag": "${{ github.sha }}"}'
+          client-payload: |-
+            {
+              "image_tag": "${{ github.sha }}",
+              "image_digest": "${{ steps.build.outputs.digest }}"
+            }
