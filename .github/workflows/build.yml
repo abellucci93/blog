@@ -24,11 +24,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and tag Docker image
-        run: docker build --target production -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
-
-      - name: Push Docker image
-        run: docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+      - id: build
+        name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: production
+          push: true
+          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
 
       - name: Emit event to homelab
         uses: peter-evans/repository-dispatch@v2
