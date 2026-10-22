@@ -10,6 +10,6 @@ USER root
 RUN mkdir -p /tmp/build \
     && hugo build --destination /tmp/build
 
-FROM nginx:1.29.2-alpine3.22 AS production
+FROM nginx:1.31.8-alpine3.24-slim AS production
 COPY --from=build --link /tmp/build /usr/share/nginx/html
 
