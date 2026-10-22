@@ -50,7 +50,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@v3
+        uses: sigstore/cosign-installer@v4.1.2
 
       - name: Sign image
         env:
@@ -92,7 +92,7 @@ jobs:
     needs: ["build-and-push", "sign"]
     steps:
       - name: Emit event to homelab
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.HOMELAB_TOKEN }}
           repository: abellucci93/homelab
