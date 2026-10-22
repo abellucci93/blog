@@ -12,6 +12,8 @@ permissions:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    outputs:
+      digest: "${{ steps.build.outputs.digest }}"
 
     steps:
       - name: Checkout code
@@ -36,6 +38,17 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
 
+  sign:
+    runs-on: ubuntu-latest
+    needs: ["build-and-push"]
+    steps:
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install cosign
         uses: sigstore/cosign-installer@v3
 
@@ -45,7 +58,24 @@ jobs:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         run: |
           cosign sign --key env://COSIGN_PRIVATE_KEY --yes \
-            ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+            ghcr.io/${{ github.repository }}@${{ needs.build-and-push.outputs.digest }}
+
+      - name: Generate provenance.json
+        run: |
+          cat > provenance.json <<'EOF'
+          {
+            "builder": { "id": "https://github.com/actions/runner" },
+            "buildType": "https://github.com/slsa-framework/slsa-github-generator",
+            "invocation": {
+              "configSource": {
+                "uri": "git+https://github.com/${{ github.repository }}@${{ github.ref }}",
+                "digest": { "sha1": "${{ github.sha }}" }
+              }
+            }
+          }
+          EOF
+          # Validate JSON
+          jq -e . provenance.json > /dev/null
 
       - name: Attest build provenance
         env:
@@ -55,8 +85,12 @@ jobs:
           cosign attest --key env://COSIGN_PRIVATE_KEY --yes \
             --predicate provenance.json \
             --type slsaprovenance \
-            ghcr.io/${{ github.repository }}@${{ steps.build.outputs.digest }}
+            ghcr.io/${{ github.repository }}@${{ needs.build-and-push.outputs.digest }}
 
+  emit-events:
+    runs-on: ubuntu-latest
+    needs: ["build-and-push", "sign"]
+    steps:
       - name: Emit event to homelab
         uses: peter-evans/repository-dispatch@v2
         with:
@@ -66,5 +100,5 @@ jobs:
           client-payload: |-
             {
               "image_tag": "${{ github.sha }}",
-              "image_digest": "${{ steps.build.outputs.digest }}"
+              "image_digest": "${{ needs.build-and-push.outputs.digest }}"
             }
